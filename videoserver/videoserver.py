@@ -6,45 +6,10 @@ import os
 import optparse
 import flask
 
-from appinit import *
-
-import testmodule
+import app
 
 
-MAIN_TITLE = "Video Server"
 DEFAULT_PORT = 3030
-
-
-#app = flask.Flask(__name__)
-app_state = None
-
-
-class AppState:
-    def __init__(self, root_path=""):
-        self.root_path = root_path
-        self.current_path = ""
-
-    @property
-    def fullpath(self):
-        return os.path.join(self.root_path, self.current_path)
-
-
-# Handlers #####################################################################
-
-@app.route("/")
-def root():
-    return retreive_fileobj(app_state.root_path)
-
-
-@app.route("/files/<path>")
-def retreive_fileobj(path):
-    return flask.render_template(
-        "main.html",
-        main_title=MAIN_TITLE,
-        root_path=path
-    )
-
-################################################################################
 
 
 # Helper functions #############################################################
@@ -73,7 +38,7 @@ def main():
     parser.add_option(
         '-r',
         '--root',
-        dest='root_path',
+        dest='rootpath',
         help='Root path. The default root path is the current directory.'
     )
     options, args = parser.parse_args()  # "args" not needed
@@ -90,20 +55,18 @@ def main():
     else:
         port = DEFAULT_PORT
             
-    if options.root_path:
-        root_path = options.root_path
-        if not os.path.isdir(root_path):
-            parser.error('Given path "{}" does not lead to a directory.'.format(root_path))
-        if len(root_path) > 0 and not root_path.endswith(("/", "\\")):
-            root_path += '\\'
+    if options.rootpath:
+        rootpath = options.rootpath
+        if not os.path.isdir(rootpath):
+            parser.error('Given path "{}" does not lead to a directory.'.format(rootpath))
+        if len(rootpath) > 0 and not rootpath.endswith(("/", "\\")):
+            rootpath += '\\'
     else:
-        root_path = os.getcwd() + "\\"
+        rootpath = os.getcwd() + "\\"
     ############################################################################
 
-    print("Given path:", root_path)
-
-    app_state = AppState(root_path)
-    initapp(port)
+    print("Given path:", rootpath)
+    app.init(port, rootpath)
 
 
 if __name__ == "__main__":

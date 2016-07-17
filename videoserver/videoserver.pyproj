@@ -25,10 +25,10 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="appinit.py">
+    <Compile Include="app\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="testmodule.py">
+    <Compile Include="app\index.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="videoserver.py">
@@ -36,12 +36,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="templates\" />
+    <Folder Include="app\" />
+    <Folder Include="app\templates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="requirements.txt" />
-    <Content Include="templates\layout.html" />
-    <Content Include="templates\main.html" />
+    <Content Include="app\templates\layout.html" />
+    <Content Include="app\templates\index.html" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
