@@ -1,11 +1,7 @@
-﻿<!DOCTYPE html>
+﻿{% extends "layout.html" %}
 
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>{{ main_title }}</title>
-    </head>
-    <body>
-        <h1>{{ root_path }}</h1>
-    </body>
-</html>
+{% block content %}
+
+<h1>{{ root_path }}</h1>
+
+{% endblock %}

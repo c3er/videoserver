@@ -4,23 +4,36 @@
 
 import os
 import optparse
-import flask     # pip install Flask
+import flask
+
+from appinit import *
+
+import testmodule
 
 
 MAIN_TITLE = "Video Server"
 DEFAULT_PORT = 3030
 
 
-app = flask.Flask(__name__)
+#app = flask.Flask(__name__)
+app_state = None
 
-root_path = ''
+
+class AppState:
+    def __init__(self, root_path=""):
+        self.root_path = root_path
+        self.current_path = ""
+
+    @property
+    def fullpath(self):
+        return os.path.join(self.root_path, self.current_path)
 
 
 # Handlers #####################################################################
 
 @app.route("/")
 def root():
-    return retreive_fileobj(root_path)
+    return retreive_fileobj(app_state.root_path)
 
 
 @app.route("/files/<path>")
@@ -47,7 +60,7 @@ def get_option_count(options):
 
 
 def main():
-    global root_path
+    global app_state
 
     # Evaluate given options ###################################################
     parser = optparse.OptionParser()
@@ -81,13 +94,16 @@ def main():
         root_path = options.root_path
         if not os.path.isdir(root_path):
             parser.error('Given path "{}" does not lead to a directory.'.format(root_path))
-        if len(root_path) > 0 and not root_path.endswith('/'):
-            root_path += '/'
+        if len(root_path) > 0 and not root_path.endswith(("/", "\\")):
+            root_path += '\\'
     else:
-        root_path = os.getcwd() + "/"
+        root_path = os.getcwd() + "\\"
     ############################################################################
 
-    app.run(port=port)
+    print("Given path:", root_path)
+
+    app_state = AppState(root_path)
+    initapp(port)
 
 
 if __name__ == "__main__":

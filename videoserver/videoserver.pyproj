@@ -25,6 +25,12 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="appinit.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="testmodule.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="videoserver.py">
       <SubType>Code</SubType>
     </Compile>
@@ -33,6 +39,8 @@
     <Folder Include="templates\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="requirements.txt" />
+    <Content Include="templates\layout.html" />
     <Content Include="templates\main.html" />
   </ItemGroup>
   <PropertyGroup>
