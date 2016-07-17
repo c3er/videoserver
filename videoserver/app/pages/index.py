@@ -15,8 +15,7 @@ def fullpath(path):
     return os.path.join(app.rootpath, path)
 
 
-@app.web.route("/")
-@app.web.route("/files/<path>")
+@app.pageview(["/", "/files/", "/files/<path>"])
 def retreive_fileobj(path=""):
     return flask.render_template(
         "index.html",

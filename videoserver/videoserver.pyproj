@@ -25,10 +25,19 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="app\misc.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\pages\foo.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\pages\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="app\index.py">
+    <Compile Include="app\pages\index.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="videoserver.py">
@@ -37,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="app\" />
+    <Folder Include="app\pages\" />
     <Folder Include="app\templates\" />
   </ItemGroup>
   <ItemGroup>

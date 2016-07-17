@@ -7,6 +7,7 @@ import optparse
 import flask
 
 import app
+import app.misc
 
 
 DEFAULT_PORT = 3030
@@ -62,7 +63,7 @@ def main():
         if len(rootpath) > 0 and not rootpath.endswith(("/", "\\")):
             rootpath += '\\'
     else:
-        rootpath = os.getcwd() + "\\"
+        rootpath = app.misc.getscriptpath(__file__) + "\\"
     ############################################################################
 
     print("Given path:", rootpath)
