@@ -7,18 +7,29 @@ import optparse
 import flask     # pip install Flask
 
 
+MAIN_TITLE = "Video Server"
 DEFAULT_PORT = 3030
 
 
 app = flask.Flask(__name__)
 
+root_path = ''
 
 
 # Handlers #####################################################################
 
 @app.route("/")
-def hello():
-    return '<html><body><h1>Hello web server</h1></body></html>'
+def root():
+    return retreive_fileobj(root_path)
+
+
+@app.route("/files/<path>")
+def retreive_fileobj(path):
+    return flask.render_template(
+        "main.html",
+        main_title=MAIN_TITLE,
+        root_path=path
+    )
 
 ################################################################################
 
@@ -36,6 +47,8 @@ def get_option_count(options):
 
 
 def main():
+    global root_path
+
     # Evaluate given options ###################################################
     parser = optparse.OptionParser()
     parser.add_option(
@@ -71,7 +84,7 @@ def main():
         if len(root_path) > 0 and not root_path.endswith('/'):
             root_path += '/'
     else:
-        root_path = ''
+        root_path = os.getcwd() + "/"
     ############################################################################
 
     app.run(port=port)
