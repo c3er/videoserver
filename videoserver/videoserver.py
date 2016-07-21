@@ -13,21 +13,6 @@ import app.misc
 import config
 
 
-DEFAULT_PORT = 3030
-
-
-# Helper functions #############################################################
-
-def get_option_count(options):
-    opt_count = 0
-    for val in options.__dict__.values():
-        if val is not None:
-            opt_count += 1
-    return opt_count
-
-################################################################################
-
-
 def main(args):
     if len(args) != 2:
         sys.exit("Root directory to serve needed as only parameter.")
