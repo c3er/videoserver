@@ -14,7 +14,7 @@
     <RootNamespace>videoserver</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
-    <CommandLineArguments>-r "D:\eigene dateien\Eigene Videos\filme"</CommandLineArguments>
+    <CommandLineArguments>"D:\eigene dateien\Eigene Videos\filme"</CommandLineArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -38,6 +38,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="app\pages\index.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="config.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="videoserver.py">
