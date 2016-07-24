@@ -16,7 +16,7 @@ web = None
 rootpath = None
 
 
-class PageWrapper:
+class PageDecorator:
     def __init__(self, urls):
         assert app.misc.islistlike(urls)
         self.decorators = [web.route(url) for url in urls]
@@ -29,12 +29,14 @@ class PageWrapper:
 
 def pageview(arg):
     if callable(arg):
+        # No parameter given
         func = arg
         modulename = app.misc.getmodulename(func)
         url = "/" + modulename
         return web.route(url)(func)
     else:
-        return PageWrapper(arg)
+        # Parameter: List of URLs
+        return PageDecorator(arg)
 
 
 def init(port, root):

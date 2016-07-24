@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>4fc91dbf-84aa-4f08-96b0-26d3118d4f40</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>videoserver.py</StartupFile>
+    <StartupFile>testing.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -14,7 +14,8 @@
     <RootNamespace>videoserver</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
-    <CommandLineArguments>"D:\eigene dateien\Eigene Videos\filme"</CommandLineArguments>
+    <CommandLineArguments>
+    </CommandLineArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,6 +42,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="config.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="testing.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="videoserver.py">
