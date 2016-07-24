@@ -4,4 +4,10 @@
 
 <h1>{{ path }}</h1>
 
+<div id="filelist">
+    {% for file in files %}
+    <div id="fileview">{{ file }}</div>
+    {% endfor %}
+</div>
+
 {% endblock %}
