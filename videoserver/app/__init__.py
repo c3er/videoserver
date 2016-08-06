@@ -6,7 +6,7 @@ import os
 import importlib
 import flask
 
-import app.misc
+import misc
 
 
 _initialized = False
@@ -18,7 +18,7 @@ rootpath = None
 
 class PageDecorator:
     def __init__(self, urls):
-        assert app.misc.islistlike(urls)
+        assert misc.islistlike(urls)
         self.decorators = [web.route(url) for url in urls]
         
     def __call__(self, func):
@@ -31,7 +31,7 @@ def pageview(arg):
     if callable(arg):
         # No parameter given
         func = arg
-        modulename = app.misc.getmodulename(func)
+        modulename = misc.getmodulename(func)
         url = "/" + modulename
         return web.route(url)(func)
     else:
@@ -45,6 +45,15 @@ def init(port, root):
     web.run(port=port)
 
 
+def abort(httpcode, msg):
+    flask.abort(httpcode, { "message": msg })
+
+
+def getmsg(error):
+    #return error.args['message']
+    return str(error.args)
+
+
 def _ispage(pagefile):
     return (
         pagefile.endswith(".py") and
@@ -53,7 +62,7 @@ def _ispage(pagefile):
 
 
 def _import_pages():
-    pagepath = os.path.join(app.misc.getscriptpath(__file__), "pages")
+    pagepath = os.path.join(misc.getscriptpath(__file__), "pages")
     pagefiles = [pagefile for pagefile in os.listdir(pagepath) if _ispage(pagefile)]
     pages = [pagefile[:-3] for pagefile in pagefiles]
     for page in pages:

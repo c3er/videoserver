@@ -8,7 +8,7 @@ import optparse
 import flask
 
 import app
-import app.misc
+import misc
 
 import config
 

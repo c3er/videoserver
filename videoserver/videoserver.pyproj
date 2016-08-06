@@ -25,13 +25,22 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="app\misc.py">
+    <Compile Include="app\pages\errors.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="misc.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\pages\file.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="app\pages\foo.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="app\pages\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\res\__init__.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="app\__init__.py">
@@ -56,10 +65,13 @@
   <ItemGroup>
     <Folder Include="app\" />
     <Folder Include="app\pages\" />
+    <Folder Include="app\res\" />
     <Folder Include="app\templates\" />
     <Folder Include="tests\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\templates\404.html" />
+    <Content Include="app\templates\file.html" />
     <Content Include="requirements.txt" />
     <Content Include="app\templates\layout.html" />
     <Content Include="app\templates\index.html" />
