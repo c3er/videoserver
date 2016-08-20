@@ -38,12 +38,12 @@ class ApplicationTests(unittest.TestCase):
     def test_filelist_with_dir_parameter(self):
         parameter = "app"
         url, response = self.file_response(parameter)
-        self.assertTrue(parameter in response.data.decode("utf-8"), "Returned HTML contains given parameter")
+        self.assertResponse(response, 200, parameter in response.data.decode("utf-8"), "Returned HTML contains given parameter")
 
     def test_filelist_with_file_parameter(self):
         parameter = "test.py"
         url, response = self.file_response(parameter)
-        self.assertTrue(parameter in response.data.decode("utf-8"), "Returned HTML contains given parameter")
+        self.assertResponse(response, 302, parameter in response.data.decode("utf-8"), "Returned HTML contains given parameter")
 
     def test_filelist_wth_unknown_parameter(self):
         url, response = self.error_response()
