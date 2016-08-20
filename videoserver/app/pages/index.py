@@ -57,13 +57,23 @@ def dirlisting(path):
     return files
 
 
+@app.web.errorhandler(FileNotFoundError)
+def page_not_found(exc):
+    return flask.render_template(
+        "pathnotfound.html",
+        title=app.res.PATHNOTFOUND_TITLE,
+        path=exc.filename
+    ), 404
+
+
 @app.pageview(["/", "/files/", "/files/<path:path>"])
 def retreive_dirlisting(path=""):
     path = fullpath(path)
     try:
         files = [file.filename for file in dirlisting(path)]
     except NotADirectoryError:
-        raise
+        url = flask.url_for(app.pages.file.retreive_fileview.__name__, path=path)
+        return flask.redirect(url)
     title = '{} "{}"'.format(app.res.DIRECTORY_TITLE, path)
     return flask.render_template(
         "index.html",

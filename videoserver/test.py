@@ -23,6 +23,10 @@ class ApplicationTests(unittest.TestCase):
     def error_response(self):
         return self.file_response("this-has-to-be-unknown")
 
+    def assertResponse(self, response , code, condition, msg=""):
+        self.assertEqual(response.status_code, code, "Response code is {}".format(code))
+        self.assertTrue(condition, msg)
+
     def test_smoke(self):
         self.assertNotEqual(self.app, None, "Application testing initialized")
 
@@ -37,7 +41,7 @@ class ApplicationTests(unittest.TestCase):
         self.assertTrue(parameter in response.data.decode("utf-8"), "Returned HTML contains given parameter")
 
     def test_filelist_with_file_parameter(self):
-        parameter = "testing.py"
+        parameter = "test.py"
         url, response = self.file_response(parameter)
         self.assertTrue(parameter in response.data.decode("utf-8"), "Returned HTML contains given parameter")
 

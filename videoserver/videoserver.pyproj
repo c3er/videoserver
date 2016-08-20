@@ -52,7 +52,7 @@
     <Compile Include="config.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="testing.py">
+    <Compile Include="test.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="tests\__init__.py">
@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\templates\404.html" />
+    <Content Include="app\templates\pathnotfound.html" />
     <Content Include="app\templates\file.html" />
     <Content Include="requirements.txt" />
     <Content Include="app\templates\layout.html" />

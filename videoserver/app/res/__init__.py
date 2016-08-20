@@ -6,4 +6,6 @@
 
 
 DIRECTORY_TITLE = "Directory listing of"
-NOTFOUND_TITLE = "404 Not found"
+FILEVIEW_TITLE = "File"
+PATHNOTFOUND_TITLE = "Path not found"
+ERROR404_TITLE = "Error 404"

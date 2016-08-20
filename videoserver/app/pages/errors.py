@@ -8,10 +8,10 @@ import app.res
 import misc
 
 
-@app.web.errorhandler(FileNotFoundError)
+@app.web.errorhandler(404)
 def page_not_found(exc):
     return flask.render_template(
-        "pathnotfound.html",
-        title=app.res.NOTFOUND_TITLE,
-        path=exc.filename
+        "404.html",
+        title=app.res.ERROR404_TITLE,
+        message=exc.description
     ), 404
