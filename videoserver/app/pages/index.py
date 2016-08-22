@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# TODO
-# - Reasonable distinction between directories and supported files
-
 
 import os
 import flask
@@ -14,16 +11,17 @@ import app.res
 from misc import debug
 
 
-_known_videofiles = (
-    ".avi",
-    ".mkv",
-    ".mp4",
-    ".mpg",
-    ".divx",
-)
-
-
 class FileObject:
+    _known_videofiles = (
+        ".avi",
+        ".mkv",
+        ".mp4",
+        ".mpg",
+        ".mpeg",
+        ".divx",
+        ".gif",
+    )
+
     def __init__(self, filepath, filename):
         self.filepath = filepath
         self.filename = filename
@@ -39,7 +37,7 @@ class FileObject:
         return os.path.isfile(self.path)
 
     def isvideo(self):
-        for filetype in _known_videofiles:
+        for filetype in self._known_videofiles:
             if self.isfile() and self.filename.endswith(filetype):
                 debug("True:", self.filename)
                 return True
@@ -72,8 +70,7 @@ def retreive_dirlisting(path=""):
     try:
         files = [file.filename for file in dirlisting(path)]
     except NotADirectoryError:
-        url = flask.url_for(app.pages.file.retreive_fileview.__name__, path=path)
-        return flask.redirect(url)
+        return app.redirect(app.pages.file.retreive_fileview, path=path)
     title = '{} "{}"'.format(app.res.DIRECTORY_TITLE, path)
     return flask.render_template(
         "index.html",

@@ -10,44 +10,67 @@ import app
 import misc
 
 
-class ApplicationTests(unittest.TestCase):
+class TestClassBase(unittest.TestCase):
     def setUp(self):
         app.web.config['TESTING'] = True
         app.rootpath = misc.getscriptpath(__file__)
         self.app = app.web.test_client()
 
-    def file_response(self, param):
-        url = "/files/" + param
-        return url, self.app.get(url)
-
-    def error_response(self):
-        return self.file_response("this-has-to-be-unknown")
-
     def assertResponse(self, response , code, condition, msg=""):
         self.assertEqual(response.status_code, code, "Response code is {}".format(code))
         self.assertTrue(condition, msg)
 
+
+class ApplicationTests(TestClassBase):
     def test_smoke(self):
         self.assertNotEqual(self.app, None, "Application testing initialized")
 
+    def test_unknown_parameter(self):
+        url = "/this-has-to-be-unknown"
+        response = self.app.get(url)
+        self.assertEqual(response.status_code, 404, 'Given URL "{}" is responded with status "404 Not Found"'.format(url))
+
+
+class FileListTests(TestClassBase):
+    dir = "app"
+    file = "test.py"
+
+    def dirresponse(self, param):
+        url = "/files/" + param
+        return url, self.app.get(url)
+
     def test_filelist(self):
-        for url in ("/", "/files/", "/files/app"):
+        for url in ("/", "/files/", "/files/" + self.dir):
             response = self.app.get(url)
             self.assertEqual(response.status_code, 200, 'Given URL "{}" is responded with status "200 OK"'.format(url))
 
-    def test_filelist_with_dir_parameter(self):
-        parameter = "app"
-        url, response = self.file_response(parameter)
-        self.assertResponse(response, 200, parameter in response.data.decode("utf-8"), "Returned HTML contains given parameter")
+    def test_unknown_parameter(self):
+        param = "this-has-to-be-unknown"
+        url, response = self.dirresponse(param)
+        self.assertResponse(response, 404, param in response.data.decode("utf-8"), "Returned HTML contains given parameter")
 
-    def test_filelist_with_file_parameter(self):
-        parameter = "test.py"
-        url, response = self.file_response(parameter)
-        self.assertResponse(response, 302, parameter in response.data.decode("utf-8"), "Returned HTML contains given parameter")
+    def test_dir_parameter(self):
+        url, response = self.dirresponse(self.dir)
+        self.assertResponse(response, 200, self.dir in response.data.decode("utf-8"), "Returned HTML contains given parameter")
 
-    def test_filelist_wth_unknown_parameter(self):
-        url, response = self.error_response()
-        self.assertEqual(response.status_code, 404, 'Given URL "{}" is responded with status "404 Not Found"'.format(url))
+    def test_file_parameter(self):
+        url, response = self.dirresponse(self.file)
+        self.assertResponse(response, 302, self.file in response.data.decode("utf-8"), "Returned HTML contains given parameter")
+
+
+class FileViewTests(TestClassBase):
+    def file_response(self, param):
+        url = "/fileview/" + param
+        return url, self.app.get(url)
+
+    def test_no_parameter(self):
+        url, response = self.file_response("")
+        self.assertEqual(response.status_code, 302, "Response code is 302")
+
+    def test_unknown_parameter(self):
+        param = "some-unknown-file"
+        url, response = self.file_response(param)
+        self.assertResponse(response, 404, param in response.data.decode("utf-8"), "Returned HTML contains given parameter")
 
 
 if __name__ == '__main__':

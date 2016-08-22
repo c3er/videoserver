@@ -39,19 +39,15 @@ def pageview(arg):
         return PageDecorator(arg)
 
 
+def redirect(func, **kwargs):
+    url = flask.url_for(func.__name__, **kwargs)
+    return flask.redirect(url)
+
+
 def init(port, root):
     global rootpath
     rootpath = root
     web.run(port=port)
-
-
-def abort(httpcode, msg):
-    flask.abort(httpcode, { "message": msg })
-
-
-def getmsg(error):
-    #return error.args['message']
-    return str(error.args)
 
 
 def _ispage(pagefile):

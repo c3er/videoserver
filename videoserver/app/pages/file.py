@@ -8,11 +8,14 @@ import app
 import app.res
 
 
-@app.pageview(["/fileview/<path:path>"])
+@app.pageview(["/fileview/", "/fileview/<path:path>"])
 def retreive_fileview(path=""):
-    title = '{} "{}"'.format(app.res.FILEVIEW_TITLE, path)
-    return flask.render_template(
-        "file.html",
-        title=title,
-        filename=path
-    )
+    if path:
+        title = '{} "{}"'.format(app.res.FILEVIEW_TITLE, path)
+        return flask.render_template(
+            "file.html",
+            title=title,
+            filename=path
+        )
+    else:
+        return app.redirect(app.pages.index.retreive_dirlisting, path=path)
