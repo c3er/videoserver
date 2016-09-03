@@ -28,6 +28,9 @@
     <Compile Include="app\pages\errors.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="app\fs.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="misc.py">
       <SubType>Code</SubType>
     </Compile>
@@ -70,8 +73,7 @@
     <Folder Include="tests\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app\templates\404.html" />
-    <Content Include="app\templates\pathnotfound.html" />
+    <Content Include="app\templates\stderror.html" />
     <Content Include="app\templates\file.html" />
     <Content Include="requirements.txt" />
     <Content Include="app\templates\layout.html" />

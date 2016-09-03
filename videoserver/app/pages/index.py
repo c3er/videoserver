@@ -6,69 +6,24 @@ import os
 import flask
 
 import app
+import app.fs
 import app.res
-
-from misc import debug
-
-
-class FileObject:
-    _known_videofiles = (
-        ".avi",
-        ".mkv",
-        ".mp4",
-        ".mpg",
-        ".mpeg",
-        ".divx",
-        ".gif",
-    )
-
-    def __init__(self, filepath, filename):
-        self.filepath = filepath
-        self.filename = filename
-
-    @property
-    def path(self):
-        return os.path.join(self.filepath, self.filename)
-
-    def isdir(self):
-        return os.path.isdir(self.path)
-
-    def isfile(self):  # Not really used yet
-        return os.path.isfile(self.path)
-
-    def isvideo(self):
-        for filetype in self._known_videofiles:
-            if self.isfile() and self.filename.endswith(filetype):
-                debug("True:", self.filename)
-                return True
-        debug("False:", self.filename)
-        return False
-
-
-def fullpath(path):
-    return os.path.join(app.rootpath, path)
-
-
-def dirlisting(path):
-    files = (FileObject(path, file) for file in os.listdir(path))
-    files = [file for file in files if file.isvideo()]
-    return files
 
 
 @app.web.errorhandler(FileNotFoundError)
 def page_not_found(exc):
     return flask.render_template(
-        "pathnotfound.html",
+        "stderror.html",
         title=app.res.PATHNOTFOUND_TITLE,
-        path=exc.filename
+        message=app.res.PATHNOTFOUND_MSG_FORMAT.format(exc.filename)
     ), 404
 
 
 @app.pageview(["/", "/files/", "/files/<path:path>"])
 def retreive_dirlisting(path=""):
-    path = fullpath(path)
+    path = app.fs.fullpath(path)
     try:
-        files = [file.filename for file in dirlisting(path)]
+        files = [file.filename for file in app.fs.dirlisting(path)]
     except NotADirectoryError:
         return app.redirect(app.pages.file.retreive_fileview, path=path)
     title = '{} "{}"'.format(app.res.DIRECTORY_TITLE, path)

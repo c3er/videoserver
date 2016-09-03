@@ -11,7 +11,7 @@ import misc
 @app.web.errorhandler(404)
 def page_not_found(exc):
     return flask.render_template(
-        "404.html",
+        "stderror.html",
         title=app.res.ERROR404_TITLE,
         message=exc.description
     ), 404
