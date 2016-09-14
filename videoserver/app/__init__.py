@@ -3,6 +3,7 @@
 
 
 import os
+import json
 import importlib
 import flask
 
@@ -12,8 +13,11 @@ import misc
 _initialized = False
 
 
+# Public #######################################################################
+
 web = None
 rootpath = None
+urls = None
 
 
 class pageview:
@@ -36,6 +40,19 @@ def init(port, root):
     global rootpath
     rootpath = root
     web.run(port=port)
+    
+################################################################################
+
+
+# Private ######################################################################
+
+class _URLManager:
+    def __init__(self):
+        jsonpath = os.path.join(misc.getscriptpath(__file__), "urls.json")
+        with open(jsonpath, encoding="utf-8-sig") as f:
+            urldata = json.load(f)
+        for member, urls in urldata.items():
+            setattr(self, member, urls)
 
 
 def _ispage(pagefile):
@@ -55,6 +72,9 @@ def _import_pages():
 
 if not _initialized:
     web = flask.Flask(__name__)
+    urls = _URLManager()
     _import_pages()
 
     _initialized = True
+    
+################################################################################

@@ -10,7 +10,7 @@ import app.fs
 import app.res
 
 
-@app.pageview(["/", "/files/", "/files/<path:path>"])
+@app.pageview(app.urls.dirlisting)
 def retreive_dirlisting(path=""):
     path = app.fs.fullpath(path)
     try:

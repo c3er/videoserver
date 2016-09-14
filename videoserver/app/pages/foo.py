@@ -18,7 +18,7 @@ template = '''\
 '''
 
 
-@app.pageview(["/foo"])
+@app.pageview(app.urls.foo)
 def func():
     return flask.render_template_string(
         template,

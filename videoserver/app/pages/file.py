@@ -9,7 +9,7 @@ import app
 import app.res
 
 
-@app.pageview(["/fileview/", "/fileview/<path:path>"])
+@app.pageview(app.urls.fileview)
 def retreive_fileview(path=""):
     if path:
         if not os.path.exists(path):

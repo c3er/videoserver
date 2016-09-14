@@ -30,6 +30,15 @@ class ApplicationTests(ApplicationTestClassBase):
         response = self.app.get(url)
         self.assertEqual(response.status_code, 404, 'Given URL "{}" is responded with status "404 Not Found"'.format(url))
 
+    def test_urls(self):
+        urls = [
+            app.urls.foo,
+            app.urls.dirlisting,
+            app.urls.fileview,
+        ]
+        for url in urls:
+            self.assertTrue(misc.islistlike(url), "URL object is a list of URLs")
+
 
 class FileListTests(ApplicationTestClassBase):
     dir = "app"
