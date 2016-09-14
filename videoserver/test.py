@@ -10,7 +10,7 @@ import app
 import misc
 
 
-class TestClassBase(unittest.TestCase):
+class ApplicationTestClassBase(unittest.TestCase):
     def setUp(self):
         app.web.config['TESTING'] = True
         app.rootpath = misc.getscriptpath(__file__)
@@ -21,7 +21,7 @@ class TestClassBase(unittest.TestCase):
         self.assertTrue(condition, msg)
 
 
-class ApplicationTests(TestClassBase):
+class ApplicationTests(ApplicationTestClassBase):
     def test_smoke(self):
         self.assertNotEqual(self.app, None, "Application testing initialized")
 
@@ -31,7 +31,7 @@ class ApplicationTests(TestClassBase):
         self.assertEqual(response.status_code, 404, 'Given URL "{}" is responded with status "404 Not Found"'.format(url))
 
 
-class FileListTests(TestClassBase):
+class FileListTests(ApplicationTestClassBase):
     dir = "app"
     file = "test.py"
 
@@ -58,7 +58,7 @@ class FileListTests(TestClassBase):
         self.assertResponse(response, 302, self.file in response.data.decode("utf-8"), "Returned HTML contains given parameter")
 
 
-class FileViewTests(TestClassBase):
+class FileViewTests(ApplicationTestClassBase):
     def file_response(self, param):
         url = "/fileview/" + param
         return url, self.app.get(url)

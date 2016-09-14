@@ -16,7 +16,7 @@ web = None
 rootpath = None
 
 
-class PageDecorator:
+class pageview:
     def __init__(self, urls):
         assert misc.islistlike(urls)
         self.decorators = [web.route(url) for url in urls]
@@ -25,18 +25,6 @@ class PageDecorator:
         for decorator in self.decorators:
             func = decorator(func)
         return func
-
-
-def pageview(arg):
-    if callable(arg):
-        # No parameter given
-        func = arg
-        modulename = misc.getmodulename(func)
-        url = "/" + modulename
-        return web.route(url)(func)
-    else:
-        # Parameter: List of URLs
-        return PageDecorator(arg)
 
 
 def redirect(func, **kwargs):

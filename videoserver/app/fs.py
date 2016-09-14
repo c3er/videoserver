@@ -29,7 +29,7 @@ class FileObject:
     def path(self):
         return os.path.join(self.filepath, self.filename)
 
-    def isdir(self):  # Not really used yet
+    def isdir(self):
         return os.path.isdir(self.path)
 
     def isfile(self):
@@ -49,6 +49,4 @@ def fullpath(path):
 
 
 def dirlisting(path):
-    files = (FileObject(path, file) for file in os.listdir(path))
-    files = [file for file in files if file.isvideo()]
-    return files
+    return [FileObject(path, file) for file in os.listdir(path)]

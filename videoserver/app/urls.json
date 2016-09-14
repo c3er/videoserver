@@ -1,0 +1,5 @@
+﻿{
+    "foo": [ "/foo" ],
+    "dirlisting": [ "/", "/files/", "/files/<path:path>" ],
+    "fileview": [ "/fileview/", "/fileview/<path:path>" ]
+}
