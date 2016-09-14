@@ -13,6 +13,10 @@ def getscriptpath(script):
     return os.path.dirname(os.path.realpath(script))
 
 
+def getlastpathpart(path):
+    return os.path.basename(os.path.normpath(path))
+
+
 def islistlike(listobj):
     return isinstance(listobj, (list, tuple, collections.UserList))
 
