@@ -10,14 +10,14 @@ import app.fs
 import app.res
 
 
-@app.pageview(app.urls.fileview)
+@app.service(app.services.fileview)
 def retreive_fileview(path=""):
     try:
         file = app.fs.getfile(path)
         if not file.isfile():
             raise app.fs.NotAFileError()
     except app.fs.NotAFileError:
-        return app.redirect(app.pages.index.retreive_dirlisting, path=path)
+        return app.redirect(app.services.dirlisting, path=path)
     else:
         url = file.url
         title = '{} "{}"'.format(app.res.FILEVIEW_TITLE, url)

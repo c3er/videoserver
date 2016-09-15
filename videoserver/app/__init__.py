@@ -10,29 +10,28 @@ import flask
 import misc
 
 
-_initialized = False
-
-
-# Public #######################################################################
-
 web = None
 rootpath = None
-urls = None
+services = None
 
 
-class pageview:
-    def __init__(self, urls):
-        assert misc.islistlike(urls)
-        self.decorators = [web.route(url) for url in urls]
+class service:
+    def __init__(self, s):
+        assert isinstance(s, _ServiceData)
+        self.decorators = [web.route(url) for url in s.urls]
+        self.service = s
         
     def __call__(self, func):
         for decorator in self.decorators:
             func = decorator(func)
+        self.service.func = func
         return func
 
 
-def redirect(func, **kwargs):
-    url = flask.url_for(func.__name__, **kwargs)
+def redirect(service, **kwargs):
+    assert isinstance(service, _ServiceData)
+    url = flask.url_for(service.func.__name__, **kwargs)
+    print(url)
     return flask.redirect(url)
 
 
@@ -40,19 +39,25 @@ def init(port, root):
     global rootpath
     rootpath = root
     web.run(port=port)
-    
-################################################################################
 
 
-# Private ######################################################################
+_initialized = False
 
-class _URLManager:
+
+class _ServiceData:
+    def __init__(self, urls):
+        assert misc.islistlike(urls)
+        self.urls = urls
+        self.func = None
+
+
+class _ServiceManager:
     def __init__(self):
-        jsonpath = os.path.join(misc.getscriptpath(__file__), "urls.json")
+        jsonpath = os.path.join(misc.getscriptpath(__file__), "services.json")
         with open(jsonpath, encoding="utf-8-sig") as f:
-            urldata = json.load(f)
-        for member, urls in urldata.items():
-            setattr(self, member, urls)
+            servicedata = json.load(f)
+        for member, urls in servicedata.items():
+            setattr(self, member, _ServiceData(urls))
 
 
 def _ispage(pagefile):
@@ -72,9 +77,7 @@ def _import_pages():
 
 if not _initialized:
     web = flask.Flask(__name__)
-    urls = _URLManager()
+    services = _ServiceManager()
     _import_pages()
 
     _initialized = True
-    
-################################################################################

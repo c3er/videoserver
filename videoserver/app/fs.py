@@ -28,9 +28,12 @@ class FileObject:
 
     def __init__(self, name, parent=None):
         assert isinstance(name, str)
+        assert "\\" not in name
         assert isinstance(parent, (type(None), FileObject))
-        self.parent = parent
-        self._ospath = self._fullpath(name)
+
+        self.parent, realname = self._build_ancestors(name, parent)
+        self._ospath = self._fullpath(realname)
+
         debug("Path:", self._ospath)
         if not os.path.exists(self._ospath):
             error = FileNotFoundError()
@@ -81,6 +84,21 @@ class FileObject:
             path = os.path.join(parent.name, name)
             parent = parent.parent
         return os.path.join(app.rootpath, path)
+
+    @staticmethod
+    def _build_ancestors(name, parent):
+        debug("Given name:", name)
+        if parent is None:
+            if name.endswith("/"):
+                name = name[:-1]
+            parts = name.split("/")
+            if len(parts) > 1:
+                realname = parts[-1]
+                debug ("Estimated real name:", realname)
+                path = "/".join(parts[:-1])
+                return FileObject(path), realname
+            return None, name
+        return parent, name
 
 
 def getfile(path):

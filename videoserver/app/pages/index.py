@@ -10,13 +10,13 @@ import app.fs
 import app.res
 
 
-@app.pageview(app.urls.dirlisting)
+@app.service(app.services.dirlisting)
 def retreive_dirlisting(path=""):
     dir = app.fs.getfile(path)
     try:
         files = dir.listdirs() + dir.listvideos()
     except NotADirectoryError:
-        return app.redirect(app.pages.file.retreive_fileview, path=path)
+        return app.redirect(app.services.fileview, path=path)
     else:
         title = '{} "{}"'.format(app.res.DIRECTORY_TITLE, path)
         return flask.render_template(

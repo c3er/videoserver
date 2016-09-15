@@ -75,7 +75,7 @@
   <ItemGroup>
     <Content Include="app\templates\stderror.html" />
     <Content Include="app\templates\file.html" />
-    <Content Include="app\urls.json" />
+    <Content Include="app\services.json" />
     <Content Include="requirements.txt" />
     <Content Include="app\templates\layout.html" />
     <Content Include="app\templates\index.html" />

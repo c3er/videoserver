@@ -6,4 +6,4 @@
 port = 3030
 
 # Show debug messages?
-debug = False
+debug = True

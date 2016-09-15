@@ -31,18 +31,19 @@ class ApplicationTests(ApplicationTestClassBase):
         self.assertEqual(response.status_code, 404, 'Given URL "{}" is responded with status "404 Not Found"'.format(url))
 
     def test_urls(self):
-        urls = [
-            app.urls.foo,
-            app.urls.dirlisting,
-            app.urls.fileview,
+        pages = [
+            app.services.foo,
+            app.services.dirlisting,
+            app.services.fileview,
         ]
-        for url in urls:
-            self.assertTrue(misc.islistlike(url), "URL object is a list of URLs")
+        for page in pages:
+            self.assertTrue(misc.islistlike(page.urls), "Page object contains a list of URLs")
+            self.assertTrue(page.func is not None, "Page object has a handler")
 
 
 class FileListTests(ApplicationTestClassBase):
-    dir = "app"
-    file = "test.py"
+    dir = "app/test/data"
+    file = "test.gif"
 
     def dirresponse(self, param):
         url = "/files/" + param
