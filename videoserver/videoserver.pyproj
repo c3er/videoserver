@@ -71,6 +71,7 @@
     <Folder Include="app\res\" />
     <Folder Include="app\templates\" />
     <Folder Include="tests\" />
+    <Folder Include="tests\data\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\templates\stderror.html" />
@@ -79,6 +80,7 @@
     <Content Include="requirements.txt" />
     <Content Include="app\templates\layout.html" />
     <Content Include="app\templates\index.html" />
+    <Content Include="tests\data\test.gif" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -3,13 +3,8 @@
 
 
 import sys
-import os
-import optparse
-import flask
 
 import app
-import misc
-
 import config
 
 

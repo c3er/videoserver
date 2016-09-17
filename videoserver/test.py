@@ -42,8 +42,8 @@ class ApplicationTests(ApplicationTestClassBase):
 
 
 class FileListTests(ApplicationTestClassBase):
-    dir = "app/test/data"
-    file = "test.gif"
+    dir = "tests/data"
+    file = "tests/data/test.gif"
 
     def dirresponse(self, param):
         url = "/files/" + param

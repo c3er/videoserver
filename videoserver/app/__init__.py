@@ -31,7 +31,6 @@ class service:
 def redirect(service, **kwargs):
     assert isinstance(service, _ServiceData)
     url = flask.url_for(service.func.__name__, **kwargs)
-    print(url)
     return flask.redirect(url)
 
 
