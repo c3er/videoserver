@@ -10,7 +10,7 @@ import app.fs
 import app.res
 
 
-@app.service(app.services.fileview)
+@app.servicehandler(app.services.fileview)
 def retreive_fileview(path=""):
     try:
         file = app.fs.getfile(path)

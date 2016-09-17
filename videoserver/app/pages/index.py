@@ -10,7 +10,7 @@ import app.fs
 import app.res
 
 
-@app.service(app.services.dirlisting)
+@app.servicehandler(app.services.dirlisting)
 def retreive_dirlisting(path=""):
     dir = app.fs.getfile(path)
     try:

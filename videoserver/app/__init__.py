@@ -15,7 +15,7 @@ rootpath = None
 services = None
 
 
-class service:
+class servicehandler:
     def __init__(self, s):
         assert isinstance(s, _ServiceData)
         self.decorators = [web.route(url) for url in s.urls]
@@ -48,6 +48,7 @@ class _ServiceData:
         assert misc.islistlike(urls)
         self.urls = urls
         self.func = None
+        self.urlbase = None
 
 
 class _ServiceManager:

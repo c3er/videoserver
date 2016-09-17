@@ -18,7 +18,7 @@ template = '''\
 '''
 
 
-@app.service(app.services.foo)
+@app.servicehandler(app.services.foo)
 def func():
     return flask.render_template_string(
         template,
