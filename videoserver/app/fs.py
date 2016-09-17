@@ -11,10 +11,6 @@ import misc
 from misc import debug
 
 
-class NotAFileError(Exception):
-    pass
-
-
 class FileObject:
     _known_videofiles = (
         ".avi",

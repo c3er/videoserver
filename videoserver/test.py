@@ -113,6 +113,14 @@ class FileBasicsTests(unittest.TestCase):
     def test_file_object(self):
         self.assertTrue(self.filepath in self.fileobject.url, "Object with file path can be created")
 
+    def test_directory_url(self):
+        url = app.services.dirlisting.urlbase + self.dirpath
+        self.assertEqual(url, self.dirobject.url, "Known URL is " + url)
+
+    def test_file_url(self):
+        url = app.services.fileview.urlbase + self.filepath
+        self.assertEqual(url, self.fileobject.url, "Known URL is " + url)
+
 
 if __name__ == '__main__':
     unittest.main()

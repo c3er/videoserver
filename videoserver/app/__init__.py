@@ -48,7 +48,7 @@ class _ServiceData:
         assert misc.islistlike(urls)
         self.urls = urls
         self.func = None
-        self.urlbase = None
+        self.urlbase = ""
 
 
 class _ServiceManager:
