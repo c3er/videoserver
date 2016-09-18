@@ -2,6 +2,11 @@
 # -*- coding: utf-8 -*-
 
 
+# Todo:
+# - File object shall have full (local) URL
+# - Build in a log system
+
+
 import sys
 
 import app
