@@ -45,6 +45,14 @@ class ApplicationTests(ApplicationTestClassBase):
             self.assertTrue(misc.islistlike(page.urls), "Page object contains a list of URLs")
             self.assertTrue(page.func is not None, "Page object has a handler")
 
+    def test_urlbase_starts_with_slash(self):
+        counter = 0
+        for service in app.services:
+            counter += 1
+            urlbase = service.urlbase
+            self.assertTrue(urlbase.startswith("/"), "URL '{}' starts with '/'".format(urlbase))
+        self.assertGreater(counter, 0, "There is any service registered and it is possible to iterate through them")
+
 
 class FileListTests(ApplicationTestClassBase):
     dir = "tests/data"

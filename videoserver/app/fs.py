@@ -11,6 +11,9 @@ import misc
 from misc import debug
 
 
+class FileError(Exception): pass
+
+
 class FileObject:
     _known_videofiles = (
         ".avi",
@@ -34,7 +37,7 @@ class FileObject:
     def url(self):
         return (
             self.ospath
-            .replace(app.rootpath, "")
+            .replace(app.rootpath, self._getservice().urlbase[:-1])
             .replace("\\", "/")
         )
 
@@ -64,10 +67,11 @@ class FileObject:
         return os.path.isfile(self.ospath)
 
     def isvideo(self):
-        for filetype in self._known_videofiles:
-            if self.isfile() and self.name.endswith(filetype):
-                debug("app.fs.FileObject.isvideo: Is video:", self.ospath)
-                return True
+        if self.isfile():
+            for filetype in self._known_videofiles:
+                if self.name.endswith(filetype):
+                    debug("app.fs.FileObject.isvideo: Is video:", self.ospath)
+                    return True
         debug("app.fs.FileObject.isvideo: Is not video:", self.ospath)
         return False
 
@@ -79,6 +83,13 @@ class FileObject:
 
     def listvideos(self):
         return [file for file in self.list() if file.isvideo()]
+
+    def _getservice(self):
+        if self.isdir():
+            return app.services.dirlisting
+        elif self.isfile():
+            return app.services.fileview
+        raise FileError("Unknown file object: '{}'".format(self.ospath))
 
 
 def getfile(path):

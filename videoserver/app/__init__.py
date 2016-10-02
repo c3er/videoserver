@@ -15,11 +15,14 @@ rootpath = None
 services = None
 
 
+class URLError(Exception): pass
+
+
 class servicehandler:
-    def __init__(self, s):
-        assert isinstance(s, _ServiceData)
-        self.decorators = [web.route(url) for url in s.urls]
-        self.service = s
+    def __init__(self, service):
+        assert isinstance(service, _ServiceData)
+        self.decorators = [web.route(url) for url in service.urls]
+        self.service = service
         
     def __call__(self, func):
         for decorator in self.decorators:
@@ -46,9 +49,24 @@ _initialized = False
 class _ServiceData:
     def __init__(self, urls):
         assert misc.islistlike(urls)
-        self.urls = urls
         self.func = None
-        self.urlbase = ""
+        self.urls, self.urlbase = self._prepare_urls(urls)
+
+    @staticmethod
+    def _prepare_urls(urls):
+        urlbase = ""
+        for url in urls:
+            parts = url.split("/")
+            if len(parts) < 2 and parts[0] != "":
+                raise URLError("Given URL '{}' does not begin with '/'".format(url))
+            tmpurlbase = parts[1]
+            if not urlbase:
+                urlbase = tmpurlbase
+            if urlbase != tmpurlbase:
+                raise URLError("It is allowed only to give the same base URL with optional parameters")
+        if not urlbase.endswith("/"):
+            urlbase += "/"
+        return urls, "/" + urlbase
 
 
 class _ServiceManager:
@@ -58,6 +76,11 @@ class _ServiceManager:
             servicedata = json.load(f)
         for member, urls in servicedata.items():
             setattr(self, member, _ServiceData(urls))
+        self._data = servicedata
+
+    def __iter__(self):
+        members = (getattr(self, member) for member in dir(self))
+        return iter(member for member in members if isinstance(member, _ServiceData))
 
 
 def _ispage(pagefile):
