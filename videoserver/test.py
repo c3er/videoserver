@@ -35,23 +35,24 @@ class ApplicationTests(ApplicationTestClassBase):
         response = self.app.get(url)
         self.assertEqual(response.status_code, 404, 'Given URL "{}" is responded with status "404 Not Found"'.format(url))
 
-    def test_urls(self):
-        pages = [
-            app.services.foo,
-            app.services.dirlisting,
-            app.services.fileview,
-        ]
-        for page in pages:
-            self.assertTrue(misc.islistlike(page.urls), "Page object contains a list of URLs")
-            self.assertTrue(page.func is not None, "Page object has a handler")
-
-    def test_urlbase_starts_with_slash(self):
+    def test_services_are_available(self):
         counter = 0
         for service in app.services:
             counter += 1
+        self.assertGreater(counter, 0, "There is any service registered and it is possible to iterate through them")
+
+    def test_urlbase_starts_with_slash(self):
+        for service in app.services:
             urlbase = service.urlbase
             self.assertTrue(urlbase.startswith("/"), "URL '{}' starts with '/'".format(urlbase))
-        self.assertGreater(counter, 0, "There is any service registered and it is possible to iterate through them")
+
+    def test_services_contain_url_lists(self):
+        for service in app.services:
+            self.assertTrue(misc.islistlike(service.urls), "Service object contains a list of URLs")
+
+    def test_services_have_handler(self):
+        for service in app.services:
+            self.assertTrue(service.func is not None, "Service object has a handler")
 
 
 class FileListTests(ApplicationTestClassBase):
