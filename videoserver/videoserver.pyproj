@@ -34,6 +34,9 @@
     <Compile Include="app\pages\misc.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="log.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="misc.py">
       <SubType>Code</SubType>
     </Compile>
