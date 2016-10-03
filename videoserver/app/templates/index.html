@@ -6,7 +6,9 @@
 
 <div id="filelist">
     {% for file in files %}
-    <div id="fileview">{{ file.name }}</div>
+    <div id="fileview">
+        <a href="{{ file.url }}">{{ file.name }}</a>
+    </div>
     {% endfor %}
 </div>
 
