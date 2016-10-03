@@ -7,7 +7,6 @@ import collections
 import string
 
 import log
-#import config
 
 
 def getscriptpath(script):

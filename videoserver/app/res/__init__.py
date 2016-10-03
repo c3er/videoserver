@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-# Resources
+"""Resources"""
 
 
 DIRECTORY_TITLE = "Directory listing of"

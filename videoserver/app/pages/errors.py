@@ -5,7 +5,6 @@
 import flask
 
 import app.res
-import misc
 
 
 @app.web.errorhandler(404)

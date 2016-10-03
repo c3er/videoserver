@@ -3,11 +3,8 @@
 
 
 import os
-import flask
 
 import app
-
-import misc
 from misc import debug
 
 

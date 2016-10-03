@@ -1,1 +1,8 @@
-- Build in links in directory listings
+- Extend directory listing
+  - Addtional infos
+    - Directories
+      - Count of files
+    - Videos
+      - (Thumbnail)
+      - Size (MB)
+      - Length
