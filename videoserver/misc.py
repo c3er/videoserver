@@ -4,7 +4,6 @@
 
 import os
 import collections
-import string
 
 import log
 
