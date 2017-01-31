@@ -67,6 +67,12 @@
     <Compile Include="test.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="tests\application_tests.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="tests\misc_tests.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="tests\__init__.py">
       <SubType>Code</SubType>
     </Compile>
@@ -81,6 +87,7 @@
     <Folder Include="app\templates\" />
     <Folder Include="tests\" />
     <Folder Include="tests\data\" />
+    <Folder Include="tests\data\subdir\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\templates\stderror.html" />
@@ -89,6 +96,7 @@
     <Content Include="requirements.txt" />
     <Content Include="app\templates\layout.html" />
     <Content Include="app\templates\index.html" />
+    <Content Include="tests\data\subdir\test.gif" />
     <Content Include="tests\data\test.gif" />
   </ItemGroup>
   <PropertyGroup>
