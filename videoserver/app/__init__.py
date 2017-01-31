@@ -8,10 +8,13 @@ import importlib
 import flask
 
 import misc
+import app.state
 
 
-web = None
 rootpath = None
+
+# Initialized while this file is imported at normal circumstances
+web = None
 services = None
 
 
@@ -43,7 +46,19 @@ def init(port, root):
     web.run(port=port)
 
 
-_initialized = False
+class ServiceManager:
+    """Called while this file is imported at normal circumstances."""
+    def __init__(self):
+        jsonpath = os.path.join(misc.getscriptpath(__file__), "services.json")
+        with open(jsonpath, encoding="utf-8-sig") as f:
+            servicedata = json.load(f)
+        for member, urls in servicedata.items():
+            setattr(self, member, _ServiceData(urls))
+        self._data = servicedata
+
+    def __iter__(self):
+        members = (getattr(self, member) for member in dir(self))
+        return iter(member for member in members if isinstance(member, _ServiceData))
 
 
 class _ServiceData:
@@ -69,20 +84,6 @@ class _ServiceData:
         return urls, "/" + urlbase
 
 
-class _ServiceManager:
-    def __init__(self):
-        jsonpath = os.path.join(misc.getscriptpath(__file__), "services.json")
-        with open(jsonpath, encoding="utf-8-sig") as f:
-            servicedata = json.load(f)
-        for member, urls in servicedata.items():
-            setattr(self, member, _ServiceData(urls))
-        self._data = servicedata
-
-    def __iter__(self):
-        members = (getattr(self, member) for member in dir(self))
-        return iter(member for member in members if isinstance(member, _ServiceData))
-
-
 def _ispage(pagefile):
     return (
         pagefile.endswith(".py") and
@@ -98,9 +99,9 @@ def _import_pages():
         importlib.import_module("app.pages." + page)
 
 
-if not _initialized:
+if not app.state.initialized:
     web = flask.Flask(__name__)
-    services = _ServiceManager()
+    services = ServiceManager()
     _import_pages()
 
-    _initialized = True
+    app.state.initialized = True
