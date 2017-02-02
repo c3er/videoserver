@@ -66,6 +66,7 @@ class ServiceManager:
 class _ServiceData:
     def __init__(self, urls):
         assert misc.islistlike(urls)
+        assert len(urls) > 0
         self.func = None
         self.urls, self.urlbase = self._prepare_urls(urls)
 
