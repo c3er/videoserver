@@ -73,6 +73,9 @@
     <Compile Include="tests\misc_tests.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="tests\service_tests.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="tests\__init__.py">
       <SubType>Code</SubType>
     </Compile>
@@ -87,6 +90,8 @@
     <Folder Include="app\templates\" />
     <Folder Include="tests\" />
     <Folder Include="tests\data\" />
+    <Folder Include="tests\data\service\" />
+    <Folder Include="tests\data\service\json\" />
     <Folder Include="tests\data\subdir\" />
   </ItemGroup>
   <ItemGroup>

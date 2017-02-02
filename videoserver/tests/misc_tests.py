@@ -28,7 +28,7 @@ class FileBasicsTests(unittest.TestCase):
     def test_directory_object_level2(self):
         path = "data/subdir"
         file = app.fs.getfile(path)
-        self.assertTrue(path in file.url, "Object with 1 membered path can be created")
+        self.assertTrue(path in file.url, "Object with 2 membered path can be created")
 
     def test_file_object(self):
         self.assertTrue(self.filepath in self.fileobject.url, "Object with file path can be created")

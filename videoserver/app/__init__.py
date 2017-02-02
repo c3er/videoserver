@@ -48,13 +48,15 @@ def init(port, root):
 
 class ServiceManager:
     """Called while this file is imported at normal circumstances."""
-    def __init__(self):
-        jsonpath = os.path.join(misc.getscriptpath(__file__), "services.json")
+    def __init__(self, jsonpath=os.path.join(misc.getscriptpath(__file__), "services.json")):
         with open(jsonpath, encoding="utf-8-sig") as f:
             servicedata = json.load(f)
         for member, urls in servicedata.items():
             setattr(self, member, _ServiceData(urls))
         self._data = servicedata
+
+    def __len__(self):
+        return len(list(iter(self)))
 
     def __iter__(self):
         members = (getattr(self, member) for member in dir(self))
