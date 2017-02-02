@@ -3,9 +3,8 @@
 
 
 import os
-import unittest
-
 import json.decoder
+import unittest
 
 import misc
 
@@ -37,5 +36,13 @@ class ServiceTests(unittest.TestCase):
             self.init_services("malformed1.json")
 
     def test_no_paths(self):
-        with self.assertRaises(Exception):
+        with self.assertRaises(AssertionError):
             self.init_services("noPaths.json")
+
+    def test_no_common_path(self):
+        with self.assertRaises(self.appmodule.URLError):
+            self.init_services("noCommonPathBase.json")
+
+    def test_service_can_be_declared_only_once(self):
+        with self.assertRaises(AssertionError):
+            self.init_services("double.json")

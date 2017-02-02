@@ -3,6 +3,7 @@
 
 
 import os
+import collections
 import json
 import importlib
 import flask
@@ -50,7 +51,7 @@ class ServiceManager:
     """Called while this file is imported at normal circumstances."""
     def __init__(self, jsonpath=os.path.join(misc.getscriptpath(__file__), "services.json")):
         with open(jsonpath, encoding="utf-8-sig") as f:
-            servicedata = json.load(f)
+            servicedata = json.load(f, object_pairs_hook=_JSONDict)
         for member, urls in servicedata.items():
             setattr(self, member, _ServiceData(urls))
         self._data = servicedata
@@ -85,6 +86,12 @@ class _ServiceData:
         if not urlbase.endswith("/"):
             urlbase += "/"
         return urls, "/" + urlbase
+
+
+class _JSONDict(collections.UserDict):
+    def __setitem__(self, key, item):
+        assert key not in self.keys()
+        super().__setitem__(key, item)
 
 
 def _ispage(pagefile):

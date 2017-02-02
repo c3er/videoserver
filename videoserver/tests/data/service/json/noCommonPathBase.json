@@ -1,0 +1,7 @@
+{
+    "myservice": [
+        "/path1/sub1",
+        "/path1/sub2",
+        "/path2/sub3"
+    ]
+}

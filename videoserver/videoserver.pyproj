@@ -101,6 +101,12 @@
     <Content Include="requirements.txt" />
     <Content Include="app\templates\layout.html" />
     <Content Include="app\templates\index.html" />
+    <Content Include="tests\data\service\json\double.json" />
+    <Content Include="tests\data\service\json\empty.json" />
+    <Content Include="tests\data\service\json\malformed1.json" />
+    <Content Include="tests\data\service\json\noCommonPathBase.json" />
+    <Content Include="tests\data\service\json\noPaths.json" />
+    <Content Include="tests\data\service\json\simple.json" />
     <Content Include="tests\data\subdir\test.gif" />
     <Content Include="tests\data\test.gif" />
   </ItemGroup>
