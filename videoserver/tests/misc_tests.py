@@ -41,6 +41,11 @@ class FileBasicsTests(unittest.TestCase):
         url = app.services.fileview.urlbase + self.filepath
         self.assertEqual(url, self.fileobject.url, "Known URL is " + url)
 
+    def test_ospath_does_not_contain_backslashes(self):
+        dirpath = self.dirobject.ospath
+        filepath = self.fileobject.ospath
+        self.assertTrue("\\" not in dirpath + filepath, "There is no backslash in OS paths")
+
 
 if __name__ == '__main__':
     unittest.main()

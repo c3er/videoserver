@@ -2,6 +2,10 @@
 
 {% block content %}
 
-<h1>{{ filename }}</h1>
+<h1>{{ file.url }}</h1>
+<video width="1024" height="576" controls="controls">
+    <source src="{{ file.ospath }}" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
 
 {% endblock %}

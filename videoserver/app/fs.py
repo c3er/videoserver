@@ -32,10 +32,9 @@ class FileObject:
 
     @property
     def url(self):
-        return (
-            self.ospath
-            .replace(app.rootpath, self._getservice().urlbase[:-1])
-            .replace("\\", "/")
+        return self.ospath.replace(
+            app.rootpath.replace("\\", "/"),
+            self._getservice().urlbase[:-1]
         )
 
     @property
@@ -55,7 +54,7 @@ class FileObject:
             error.filename = self.name
             raise error
 
-        return self._fullpath
+        return self._fullpath.replace("\\", "/")
 
     def isdir(self):
         return os.path.isdir(self.ospath)
