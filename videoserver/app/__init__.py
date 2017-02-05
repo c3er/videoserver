@@ -9,7 +9,6 @@ import importlib
 import flask
 
 import misc
-import app.state
 
 
 rootpath = None
@@ -49,7 +48,7 @@ def init(port, root):
 
 class ServiceManager:
     """Called while this file is imported at normal circumstances."""
-    def __init__(self, jsonpath=os.path.join(misc.getscriptpath(__file__), "services.json")):
+    def __init__(self, *, jsonpath):
         with open(jsonpath, encoding="utf-8-sig") as f:
             servicedata = json.load(f, object_pairs_hook=_JSONDict)
         for member, urls in servicedata.items():
@@ -62,6 +61,9 @@ class ServiceManager:
     def __iter__(self):
         members = (getattr(self, member) for member in dir(self))
         return iter(member for member in members if isinstance(member, _ServiceData))
+
+
+_initialized = False
 
 
 class _ServiceData:
@@ -109,9 +111,9 @@ def _import_pages():
         importlib.import_module("app.pages." + page)
 
 
-if not app.state.initialized:
+if not _initialized:
     web = flask.Flask(__name__)
-    services = ServiceManager()
+    services = ServiceManager(jsonpath=os.path.join(misc.getscriptpath(__file__), "services.json"))
     _import_pages()
 
-    app.state.initialized = True
+    _initialized = True

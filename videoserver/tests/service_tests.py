@@ -6,6 +6,7 @@ import os
 import json.decoder
 import unittest
 
+import app
 import misc
 
 
@@ -13,15 +14,9 @@ _jsondirpath = os.path.join(misc.getscriptpath(__file__), "data", "service", "js
 
 
 class ServiceTests(unittest.TestCase):
-    def setUp(self):
-        import app.state
-        app.state.initialized = True
-        import app
-        self.appmodule = app
-
     def init_services(self, jsonfile):
         json = os.path.join(_jsondirpath, jsonfile)
-        return self.appmodule.ServiceManager(json)
+        return app.ServiceManager(jsonpath=json)
 
     def test_smoke(self):
         services = self.init_services("simple.json")
@@ -40,7 +35,7 @@ class ServiceTests(unittest.TestCase):
             self.init_services("noPaths.json")
 
     def test_no_common_path(self):
-        with self.assertRaises(self.appmodule.URLError):
+        with self.assertRaises(app.URLError):
             self.init_services("noCommonPathBase.json")
 
     def test_service_can_be_declared_only_once(self):
