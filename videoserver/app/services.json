@@ -2,5 +2,6 @@
     "foo": [ "/foo" ],
     "root": [ "/" ],
     "dirlisting": [ "/files/", "/files/<path:path>" ],
-    "fileview": [ "/fileview/", "/fileview/<path:path>" ]
+    "fileview": [ "/fileview/", "/fileview/<path:path>" ],
+    "video": [ "/video/<path:path>" ]
 }

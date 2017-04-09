@@ -95,5 +95,9 @@ class FileViewTests(ApplicationTestClassBase):
         self.assertResponse(response, 404, param in response.data.decode("utf-8"), "Returned HTML contains given parameter")
 
 
+class VideoTests(ApplicationTestClassBase):
+    pass
+
+
 if __name__ == '__main__':
     unittest.main()

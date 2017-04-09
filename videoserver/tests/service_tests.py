@@ -41,3 +41,7 @@ class ServiceTests(unittest.TestCase):
     def test_service_can_be_declared_only_once(self):
         with self.assertRaises(AssertionError):
             self.init_services("double.json")
+
+
+if __name__ == '__main__':
+    unittest.main()

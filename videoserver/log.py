@@ -39,8 +39,7 @@ def init(logfile, debug_on=False):
     
     # Setup handler
     _handler = logging.handlers.RotatingFileHandler(logfile, maxBytes=1048576, backupCount=5)
-    formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
-    _handler.setFormatter(formatter)
+    _handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
     _logger.addHandler(_handler)
 
     # Setup log system of web framework to use the own handler

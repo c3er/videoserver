@@ -53,7 +53,6 @@ class ServiceManager:
             servicedata = json.load(f, object_pairs_hook=_JSONDict)
         for member, urls in servicedata.items():
             setattr(self, member, _ServiceData(urls))
-        self._data = servicedata
 
     def __len__(self):
         return len(list(iter(self)))
