@@ -55,7 +55,8 @@ def close():
     """Closes the logger"""
     global _handler
     global _logger
-    _handler.close()
+    if _handler:
+        _handler.close()
     _logger = None
 
     
