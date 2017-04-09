@@ -57,35 +57,36 @@ def close():
     global _logger
     if _handler:
         _handler.close()
+        _handler = None
     _logger = None
 
     
 def isready():
     """Returns the status of the logger."""
-    return _logger is not None
+    return _logger is not None and _handler is not None
 
     
 def info(msg):
     """Log message with level info."""
-    if _logger:
+    if isready():
         _logger.info(str(msg))
 
         
 def debug(msg):
     """Log message with level debug."""
-    if _debug_on and _logger:
+    if _debug_on and isready():
         _logger.debug(str(msg))
 
         
 def error(msg):
     """Log message with level error."""
-    if _logger:
+    if isready():
         _logger.error(str(msg))
 
         
 def exception(msg):
     """Log message with level error plus exception traceback."""
-    if _logger:
+    if isready():
         _logger.exception(str(msg))
 
         
