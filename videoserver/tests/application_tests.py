@@ -9,6 +9,9 @@ import misc
 
 
 class ApplicationTestClassBase(unittest.TestCase):
+    dir = "data"
+    file = "data/test.gif"
+
     def setUp(self):
         app.web.config['TESTING'] = True
         app.rootpath = misc.getscriptpath(__file__)
@@ -54,9 +57,6 @@ class ApplicationTests(ApplicationTestClassBase):
 
 
 class FileListTests(ApplicationTestClassBase):
-    dir = "data"
-    file = "data/test.gif"
-
     def dirresponse(self, param):
         url = "/files/" + param
         return url, self.app.get(url)
@@ -69,15 +69,15 @@ class FileListTests(ApplicationTestClassBase):
     def test_unknown_parameter(self):
         param = "this-has-to-be-unknown"
         url, response = self.dirresponse(param)
-        self.assertResponse(response, 404, param in response.data.decode("utf-8"), "Returned HTML contains given parameter")
+        self.assertResponse(response, 404, param in response.data.decode("utf-8"), "Returned HTML contains given unknown parameter")
 
     def test_dir_parameter(self):
         url, response = self.dirresponse(self.dir)
-        self.assertResponse(response, 200, self.dir in response.data.decode("utf-8"), "Returned HTML contains given parameter")
+        self.assertResponse(response, 200, self.dir in response.data.decode("utf-8"), "Returned HTML contains given directory parameter")
 
     def test_file_parameter(self):
         url, response = self.dirresponse(self.file)
-        self.assertResponse(response, 302, self.file in response.data.decode("utf-8"), "Returned HTML contains given parameter")
+        self.assertResponse(response, 302, self.file in response.data.decode("utf-8"), "Returned HTML contains given file parameter")
 
 
 class FileViewTests(ApplicationTestClassBase):
@@ -92,12 +92,11 @@ class FileViewTests(ApplicationTestClassBase):
     def test_unknown_parameter(self):
         param = "some-unknown-file"
         url, response = self.file_response(param)
-        self.assertResponse(response, 404, param in response.data.decode("utf-8"), "Returned HTML contains given parameter")
+        self.assertResponse(response, 404, param in response.data.decode("utf-8"), "Returned HTML contains given unknown parameter")
 
-
-class VideoTests(ApplicationTestClassBase):
-    pass
-
+    def test_file_parameter(self):
+        url, response = self.file_response(self.file)
+        self.assertResponse(response, 200, self.file in response.data.decode("utf-8"), "Returned HTML contains given file parameter")
 
 if __name__ == '__main__':
     unittest.main()
