@@ -14,6 +14,10 @@ _jsondirpath = os.path.join(misc.getscriptpath(__file__), "data", "service", "js
 
 
 class ServiceTests(unittest.TestCase):
+    def init_error(self, exctype, jsonfile):
+        with self.assertRaises(exctype):
+            self.init_services(jsonfile)
+
     def init_services(self, jsonfile):
         json = os.path.join(_jsondirpath, jsonfile)
         return app.ServiceManager(jsonpath=json)
@@ -27,24 +31,19 @@ class ServiceTests(unittest.TestCase):
         self.assertEqual(len(noservice), 0, "Empty JSON file can be loaded")
 
     def test_malformed_json_syntax(self):
-        with self.assertRaises(json.decoder.JSONDecodeError):
-            self.init_services("malformed1.json")
+        self.init_error(json.decoder.JSONDecodeError, "malformed1.json")
 
     def test_no_paths(self):
-        with self.assertRaises(AssertionError):
-            self.init_services("noPaths.json")
+        self.init_error(AssertionError, "noPaths.json")
 
     def test_no_common_path(self):
-        with self.assertRaises(app.URLError):
-            self.init_services("noCommonPathBase.json")
+        self.init_error(app.URLError, "noCommonPathBase.json")
 
     def test_service_can_be_declared_only_once(self):
-        with self.assertRaises(AssertionError):
-            self.init_services("double.json")
+        self.init_error(AssertionError, "double.json")
 
     def test_url_does_not_begin_with_slash(self):
-        with self.assertRaises(app.URLError):
-            self.init_services("invalidPath1.json")
+        self.init_error(app.URLError, "invalidPath1.json")
 
 
 if __name__ == '__main__':
