@@ -5,7 +5,7 @@
 """This is 'my_logger' module, which is imported into all the other modules of
 my application.
 
-Copied from 'The Python Rag' - August 2009
+Based on an article in 'The Python Rag' - August 2009
 """
 
 
@@ -27,6 +27,11 @@ _debug_on = None
 def init(logfile, debug_on=False):
     """Sets up the logger.
     Must be called, before any other function is called.
+
+    Parameters:
+    - logfile: Path to the logfile. If the path is not absolute, the caller has
+      take care to have set the proper current diretory.
+    - debug_on: If set to False (default), debug messages will be suppressed.
     """
     global _handler
     global _logger
@@ -62,7 +67,7 @@ def close():
 
     
 def isready():
-    """Returns the status of the logger."""
+    """Returns hether the logger is initialized."""
     return _logger is not None and _handler is not None
 
     

@@ -31,4 +31,6 @@ _ReSharper*/
 # Miscellaneous
 __pycache__/
 .vs/
+htmlcov/
+.coverage
 tags

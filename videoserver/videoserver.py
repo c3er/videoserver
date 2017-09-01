@@ -12,7 +12,8 @@ import config
 LOGFILE = "server.log"
 
 
-def main(args):
+def main():
+    args = sys.argv
     try:
         log.init(LOGFILE, config.debug)
 
@@ -30,4 +31,4 @@ def main(args):
 
 
 if __name__ == "__main__":
-    main(sys.argv)
+    main()
