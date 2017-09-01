@@ -9,7 +9,7 @@ import misc
 
 
 class ApplicationTestClassBase(unittest.TestCase):
-    dir = "data"
+    dir = "data/"
     file = "data/test.gif"
 
     def setUp(self):

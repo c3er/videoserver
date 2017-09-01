@@ -42,6 +42,10 @@ class ServiceTests(unittest.TestCase):
         with self.assertRaises(AssertionError):
             self.init_services("double.json")
 
+    def test_url_does_not_begin_with_slash(self):
+        with self.assertRaises(app.URLError):
+            self.init_services("invalidPath1.json")
+
 
 if __name__ == '__main__':
     unittest.main()
