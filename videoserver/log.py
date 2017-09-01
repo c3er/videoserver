@@ -24,7 +24,7 @@ _filehandler = None
 _debug_on = None
 
 
-def init(logfile, debug_on=False):
+def init(logfile, debug_on=False, use_console=True):
     """Sets up the logger.
     Must be called, before any other function is called.
 
@@ -52,22 +52,29 @@ def init(logfile, debug_on=False):
     wzlog.setLevel(logging.INFO)
     wzlog.addHandler(_filehandler)
 
-    # Log messages shall be printed to console too
-    logging.getLogger().addHandler(_ConsoleHandler(sys.stdout))
+    if use_console:
+        # Log messages shall be printed to console too
+        logging.getLogger().addHandler(_ConsoleHandler(sys.stdout))
 
     
 def close():
     """Closes the logger"""
     global _filehandler
     global _logger
+
+    # https://stackoverflow.com/a/15474586
+    handlers = _logger.handlers[:]
+    for handler in handlers:
+        handler.close()
+        _logger.removeHandler(handler)
+
     if _filehandler:
-        _filehandler.close()
         _filehandler = None
     _logger = None
 
     
 def isready():
-    """Returns hether the logger is initialized."""
+    """Returns whether the logger is initialized."""
     return _logger is not None and _filehandler is not None
 
     
