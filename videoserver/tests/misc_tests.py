@@ -46,6 +46,12 @@ class FileBasicsTests(unittest.TestCase):
         filepath = self.fileobject.ospath
         self.assertTrue("\\" not in dirpath + filepath, "There is no backslash in OS paths")
 
+    def test_unknown_path(self):
+        path = "some/unknown/path"
+        file = app.fs.getfile(path)
+        with self.assertRaises(FileNotFoundError):
+            url = file.url
+
 
 if __name__ == '__main__':
     unittest.main()

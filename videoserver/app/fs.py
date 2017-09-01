@@ -81,11 +81,7 @@ class FileObject:
         return [file for file in self.list() if file.isvideo()]
 
     def _getservice(self):
-        if self.isdir():
-            return app.services.dirlisting
-        elif self.isfile():
-            return app.services.fileview
-        raise FileError("Unknown file object: '{}'".format(self.ospath))
+        return app.services.dirlisting if self.isdir() else app.services.fileview
 
 
 def getfile(path):
