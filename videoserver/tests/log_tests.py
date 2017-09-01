@@ -24,11 +24,13 @@ class LogTests(unittest.TestCase):
         log.close()
         self.assertFalse(log.isready(), "Logger is closed")
 
+    def getlogdata(self):
+        with open(_logfile, encoding="utf8") as f:
+            return f.read()
+
     def logmessage(self, logmethod, msg):
         logmethod(msg)
-        with open(_logfile, encoding="utf8") as f:
-            logdata = f.read()
-        self.assertTrue(msg in logdata, 'Message "{}" can be logged'.format(msg))
+        self.assertTrue(msg in self.getlogdata(), 'Message "{}" can be logged'.format(msg))
 
     def test_isready(self):
         self.assertTrue(log.isready(), "Logger is initialized")
@@ -46,7 +48,11 @@ class LogTests(unittest.TestCase):
         self.logmessage(log.exception, "Exception message")
 
     def test_log_debug_deactivated(self):
-        self.logmessage(log.debug, "Debug message")
+        msg = "Debug message that should not appear"
+        log.close()
+        log.init(_logfile, debug_on=False, use_console=False)
+        log.debug(msg)
+        self.assertFalse(msg in self.getlogdata(), 'Message "{}" is not logged'.format(msg))
 
 
 if __name__ == '__main__':
