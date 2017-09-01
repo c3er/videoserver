@@ -3,10 +3,12 @@
 
 
 import sys
+import os
 
 import log
 import app
 import config
+import misc
 
 
 LOGFILE = "server.log"
@@ -15,7 +17,7 @@ LOGFILE = "server.log"
 def main():
     args = sys.argv
     try:
-        log.init(LOGFILE, config.debug)
+        log.init(os.path.join(misc.getstarterdir(), LOGFILE), config.debug)
 
         if len(args) != 2:
             sys.exit("Root directory to serve needed as only parameter.")

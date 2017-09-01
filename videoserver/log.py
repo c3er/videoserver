@@ -20,7 +20,7 @@ _LOGGERNAME = "videoserver"
 
 
 _logger = None
-_handler = None
+_filehandler = None
 _debug_on = None
 
 
@@ -33,7 +33,7 @@ def init(logfile, debug_on=False):
       take care to have set the proper current diretory.
     - debug_on: If set to False (default), debug messages will be suppressed.
     """
-    global _handler
+    global _filehandler
     global _logger
     global _debug_on
 
@@ -43,14 +43,14 @@ def init(logfile, debug_on=False):
     _logger.setLevel(logging.DEBUG if debug_on else logging.INFO)
     
     # Setup handler
-    _handler = logging.handlers.RotatingFileHandler(logfile, maxBytes=1048576, backupCount=5)
-    _handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
-    _logger.addHandler(_handler)
+    _filehandler = logging.handlers.RotatingFileHandler(logfile, maxBytes=1048576, backupCount=5)
+    _filehandler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
+    _logger.addHandler(_filehandler)
 
     # Setup log system of web framework to use the own handler
     wzlog = logging.getLogger('werkzeug')
     wzlog.setLevel(logging.INFO)
-    wzlog.addHandler(_handler)
+    wzlog.addHandler(_filehandler)
 
     # Log messages shall be printed to console too
     logging.getLogger().addHandler(_ConsoleHandler(sys.stdout))
@@ -58,17 +58,17 @@ def init(logfile, debug_on=False):
     
 def close():
     """Closes the logger"""
-    global _handler
+    global _filehandler
     global _logger
-    if _handler:
-        _handler.close()
-        _handler = None
+    if _filehandler:
+        _filehandler.close()
+        _filehandler = None
     _logger = None
 
     
 def isready():
     """Returns hether the logger is initialized."""
-    return _logger is not None and _handler is not None
+    return _logger is not None and _filehandler is not None
 
     
 def info(msg):

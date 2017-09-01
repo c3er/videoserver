@@ -20,8 +20,8 @@ def islistlike(obj):
     return isinstance(obj, (list, tuple, collections.UserList))
 
 
-# def getstarterdir():
-#     return getscriptpath(__file__)
+def getstarterdir():
+    return getscriptpath(__file__)
 
 
 # def getlastpathpart(path):
