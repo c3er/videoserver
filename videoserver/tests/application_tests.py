@@ -83,7 +83,7 @@ class FileListTests(ApplicationTestClassBase):
             for match in re.findall(r'href="(.*)"', response.data.decode("utf-8"))
             if match.strip()
         ]
-        self.assertResponse(response, 200, len(matches) > 1, "Returned HTML contains proper links")
+        self.assertResponse(response, 200, len(matches) != 1, "Returned HTML contains proper links")
 
     def test_file_parameter(self):
         url, response = self.dirresponse(self.file)

@@ -39,6 +39,10 @@ class FileObject:
         )
 
     @property
+    def content_url(self):
+        pass
+
+    @property
     def ospath(self):
         path = self.name
         parent = self.parent
