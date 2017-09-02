@@ -120,18 +120,18 @@ def logmethod(m):
     return wrapper
 
 
+def str2ascii(text):
+    charlist = list(text)
+    for i, char in enumerate(charlist):
+        if char not in string.printable:
+            charlist[i] = "&#" + str(ord(char)) + ";"
+    return "".join(charlist)
+
+
 class _ConsoleHandler(logging.StreamHandler):
     def __init__(self, *args, **kw):
         super().__init__(*args, **kw)
 
     def emit(self, record):
-        record.msg = self._str2ascii(record.msg)
+        record.msg = str2ascii(record.msg)
         super().emit(record)
-
-    @staticmethod
-    def _str2ascii(text):
-        charlist = list(text)
-        for i, char in enumerate(charlist):
-            if char not in string.printable:
-                charlist[i] = "&#" + str(ord(char)) + ";"
-        return "".join(charlist)
