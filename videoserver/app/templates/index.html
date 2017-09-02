@@ -4,9 +4,9 @@
 
 <div id="filelist">
     {% for file in files %}
-    <div id="fileview">
-        <a href="{{ file.url }}">{{ file.name }}</a>
-    </div>
+        <div id="fileview">
+            <a href="{{ file.view_url }}">{{ file.name }}</a>
+        </div>
     {% endfor %}
 </div>
 

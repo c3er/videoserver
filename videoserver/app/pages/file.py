@@ -14,7 +14,7 @@ def retreive_fileview(path=""):
     file = app.fs.getfile(path)
     if not file.isfile():
         return app.redirect(app.services.dirlisting, path=path)
-    title = '{} "{}"'.format(app.res.FILEVIEW_TITLE, file.url)
+    title = '{} "{}"'.format(app.res.FILEVIEW_TITLE, file.view_url)
     return flask.render_template(
         "file.html",
         title=title,

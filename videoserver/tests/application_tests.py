@@ -3,6 +3,7 @@
 
 
 import unittest
+import re
 
 import app
 import misc
@@ -74,6 +75,15 @@ class FileListTests(ApplicationTestClassBase):
     def test_dir_parameter(self):
         url, response = self.dirresponse(self.dir)
         self.assertResponse(response, 200, self.dir in response.data.decode("utf-8"), "Returned HTML contains given directory parameter")
+
+    def test_links_have_proper_urls(self):
+        url, response = self.dirresponse(self.dir)
+        matches = [
+            match
+            for match in re.findall(r'href="(.*)"', response.data.decode("utf-8"))
+            if match.strip()
+        ]
+        self.assertResponse(response, 200, len(matches) > 1, "Returned HTML contains proper links")
 
     def test_file_parameter(self):
         url, response = self.dirresponse(self.file)

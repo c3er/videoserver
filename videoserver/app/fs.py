@@ -32,7 +32,7 @@ class FileObject:
         self._fullpath = ""
 
     @property
-    def url(self):
+    def view_url(self):
         return self.ospath.replace(
             app.rootpath.replace("\\", "/"),
             self._getservice().urlbase[:-1]
