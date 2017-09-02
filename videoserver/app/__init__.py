@@ -95,16 +95,10 @@ class _JSONDict(collections.UserDict):
         super().__setitem__(key, item)
 
 
-def _ispage(pagefile):
-    return (
-        pagefile.endswith(".py") and
-        pagefile != "__init__.py"
-    )
-
-
 def _import_pages():
+    ispage = lambda pagefile: pagefile.endswith(".py") and pagefile != "__init__.py"
     pagepath = os.path.join(misc.getscriptpath(__file__), "pages")
-    pages = [pagefile[:-3] for pagefile in os.listdir(pagepath) if _ispage(pagefile)]
+    pages = [pagefile[:-3] for pagefile in os.listdir(pagepath) if ispage(pagefile)]
     for page in pages:
         importlib.import_module("app.pages." + page)
 
