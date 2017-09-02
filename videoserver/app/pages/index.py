@@ -12,15 +12,13 @@ import app.res
 @app.servicehandler(app.services.dirlisting)
 def retreive_dirlisting(path=""):
     dir = app.fs.getfile(path)
-    try:
-        files = dir.listdirs() + dir.listvideos()
-    except NotADirectoryError:
+    if not dir.isdir():
         return app.redirect(app.services.fileview, path=path)
-    else:
-        title = '{} "{}"'.format(app.res.DIRECTORY_TITLE, path)
-        return flask.render_template(
-            "index.html",
-            title=title,
-            path=path,
-            files=files
-        )
+    files = dir.listdirs() + dir.listvideos()
+    title = '{} "{}"'.format(app.res.DIRECTORY_TITLE, path)
+    return flask.render_template(
+        "index.html",
+        title=title,
+        path=path,
+        files=files
+    )

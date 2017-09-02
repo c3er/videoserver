@@ -22,11 +22,3 @@ def islistlike(obj):
 
 def getstarterdir():
     return getscriptpath(__file__)
-
-
-# def getlastpathpart(path):
-#     return os.path.basename(os.path.normpath(path))
-
-
-# def getmodulename(func):
-#     return func.__module__.split(".")[-1]

@@ -19,6 +19,7 @@ class FileObject:
         ".mpg",
         ".mpeg",
         ".divx",
+        ".flv",
         ".gif",
     )
 

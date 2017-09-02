@@ -104,8 +104,7 @@ def _ispage(pagefile):
 
 def _import_pages():
     pagepath = os.path.join(misc.getscriptpath(__file__), "pages")
-    pagefiles = [pagefile for pagefile in os.listdir(pagepath) if _ispage(pagefile)]
-    pages = [pagefile[:-3] for pagefile in pagefiles]
+    pages = [pagefile[:-3] for pagefile in os.listdir(pagepath) if _ispage(pagefile)]
     for page in pages:
         importlib.import_module("app.pages." + page)
 
