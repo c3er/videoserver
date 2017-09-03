@@ -37,11 +37,19 @@ class FileObject:
 
     @property
     def content_url(self):
-        pass
+        if self.isvideo():
+            return self.ospath.replace(
+                app.rootpath.replace("\\", "/"),
+                app.services.filecontent.urlbase[:-1]
+            )
 
     @property
     def info_url(self):
-        pass
+        if self.isvideo():
+            return self.ospath.replace(
+                app.rootpath.replace("\\", "/"),
+                app.services.fileinfo.urlbase[:-1]
+            )
 
     @property
     def ospath(self):

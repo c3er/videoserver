@@ -4,10 +4,14 @@
 
 <h1>{{ file.name }}</h1>
 <video width="800" height="450" controls="controls">
-    <source src="{{ file.ospath }}" type="video/mp4" />
+    <source src="{{ file.content_url }}" type="video/mp4" />
     Your browser does not support the video tag.
 </video>
+
+<!-- Only for debugging/testing -->
 <p>{{ file.ospath }}</p>
 <p>{{ file.view_url }}</p>
+<p><a href="{{ file.content_url }}">{{ file.content_url }}</a></p>
+<p><a href="{{ file.view_url }}">{{ file.view_url }}</a></p>
 
 {% endblock %}
