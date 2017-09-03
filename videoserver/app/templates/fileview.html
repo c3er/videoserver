@@ -3,7 +3,7 @@
 {% block content %}
 
 <h1>{{ file.name }}</h1>
-<video width="800" height="450" controls="controls">
+<video width="800" height="450" controls="controls" preload="auto">
     <source src="{{ file.content_url }}" type="video/mp4" />
     Your browser does not support the video tag.
 </video>
