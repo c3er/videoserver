@@ -10,4 +10,9 @@ import app.fs
 
 @app.servicehandler(app.services.filecontent)
 def get_filecontent(path):
-    return flask.send_file(app.fs.getfile(path).ospath, mimetype="video/mp4")
+    file = app.fs.getfile(path)
+    if file.isdir():
+        error = IsADirectoryError()
+        error.filename = path
+        raise error
+    return flask.send_file(file.ospath, mimetype="video/mp4")

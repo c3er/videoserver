@@ -22,6 +22,10 @@ class ApplicationTestClassBase(unittest.TestCase):
         self.assertEqual(response.status_code, code, "Response code is {}".format(code))
         self.assertTrue(condition, msg)
 
+    def response(self, service, param):
+        url = "/{}/{}".format(service, param)
+        return url, self.app.get(url)
+
 
 class ApplicationTests(ApplicationTestClassBase):
     def test_smoke(self):
@@ -56,11 +60,13 @@ class ApplicationTests(ApplicationTestClassBase):
         for service in app.services:
             self.assertTrue(service.func is not None, "Service object has a handler")
 
+    def test_internal_server_error(self):
+        self.assertTrue(False, "Add service that raises an excepion")
+
 
 class FileListTests(ApplicationTestClassBase):
     def dirresponse(self, param):
-        url = "/files/" + param
-        return url, self.app.get(url)
+        return self.response("files", param)
 
     def test_filelist(self):
         url = "/files/"
@@ -92,8 +98,7 @@ class FileListTests(ApplicationTestClassBase):
 
 class FileViewTests(ApplicationTestClassBase):
     def file_response(self, param):
-        url = "/fileview/" + param
-        return url, self.app.get(url)
+        return self.response("fileview", param)
 
     def test_no_parameter(self):
         url, response = self.file_response("")
@@ -107,6 +112,25 @@ class FileViewTests(ApplicationTestClassBase):
     def test_file_parameter(self):
         url, response = self.file_response(self.file)
         self.assertResponse(response, 200, self.file in response.data.decode("utf-8"), "Returned HTML contains given file parameter")
+
+
+class FileContentTests(ApplicationTestClassBase):
+    def content_response(self, param):
+        return self.response("filecontent", param)
+
+    def test_content_can_be_retreived(self):
+        url, response = self.content_response(self.file)
+        self.assertResponse(response, 200, len(response.data) > 0, "File content can be retreived")
+
+    def test_unknown_parameter(self):
+        param = "some-unknown-file"
+        url, response = self.content_response(param)
+        self.assertResponse(response, 404, param in response.data.decode("utf-8"), "Returned HTML contains given unknown parameter")
+
+    def test_dir_parameter(self):
+        url, response = self.content_response(self.dir)
+        self.assertResponse(response, 400, self.dir in response.data.decode("utf-8"), "Returned HTML contains given directory parameter")
+
 
 if __name__ == '__main__':
     unittest.main()
