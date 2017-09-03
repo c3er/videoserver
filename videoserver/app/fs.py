@@ -8,9 +8,6 @@ import app
 from misc import debug
 
 
-class FileError(Exception): pass
-
-
 class FileObject:
     _known_videofiles = (
         ".avi",
@@ -40,6 +37,10 @@ class FileObject:
 
     @property
     def content_url(self):
+        pass
+
+    @property
+    def info_url(self):
         pass
 
     @property

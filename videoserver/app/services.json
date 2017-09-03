@@ -3,5 +3,6 @@
     "foo": [ "/foo" ],
     "dirlisting": [ "/files/", "/files/<path:path>" ],
     "fileview": [ "/fileview/", "/fileview/<path:path>" ],
-    "video": [ "/video/<path:path>" ]
+    "filecontent": [ "/filecontent/<path:path>" ],
+    "fileinfo": [ "/fileinfo/<path:path>" ]
 }
