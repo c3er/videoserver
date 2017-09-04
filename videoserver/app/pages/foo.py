@@ -25,3 +25,8 @@ def func():
         title="Foo bar",
         message = "Hello world!"
     )
+
+
+@app.servicehandler(app.services.exception)
+def raise_exception():
+    raise Exception()

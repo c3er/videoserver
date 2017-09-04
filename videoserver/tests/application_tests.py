@@ -22,7 +22,7 @@ class ApplicationTestClassBase(unittest.TestCase):
         self.assertEqual(response.status_code, code, "Response code is {}".format(code))
         self.assertTrue(condition, msg)
 
-    def response(self, service, param):
+    def response(self, service, param=""):
         url = "/{}/{}".format(service, param)
         return url, self.app.get(url)
 
@@ -60,8 +60,18 @@ class ApplicationTests(ApplicationTestClassBase):
         for service in app.services:
             self.assertTrue(service.func is not None, "Service object has a handler")
 
-    def test_internal_server_error(self):
-        self.assertTrue(False, "Add service that raises an excepion")
+    # XXX Currently it is not possible to test that a proper HTML,
+    # containing an exception stacktrace is rendered
+
+    # def test_internal_server_error(self):
+    #     url, response = self.response("exception")
+    #     data = response.data.decode("utf-8")
+    #     self.assertResponse(
+    #         response,
+    #         500,
+    #         "error" in data and "Traceback (most recent call last):" in data,
+    #         "An internal server error leads to an exception message"
+    #     )
 
 
 class FileListTests(ApplicationTestClassBase):

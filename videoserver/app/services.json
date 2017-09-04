@@ -1,6 +1,7 @@
 ﻿{
     "root": [ "/" ],
-    "foo": [ "/foo" ],
+    "foo": [ "/foo/" ],
+    "exception": [ "/exception/" ],
     "dirlisting": [ "/files/", "/files/<path:path>" ],
     "fileview": [ "/fileview/", "/fileview/<path:path>" ],
     "filecontent": [ "/filecontent/<path:path>" ],
