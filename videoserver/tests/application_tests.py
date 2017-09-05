@@ -11,7 +11,7 @@ import misc
 
 class ApplicationTestClassBase(unittest.TestCase):
     dir = "data/"
-    file = "data/test.gif"
+    file = "data/video.mp4"
 
     def setUp(self):
         app.web.config['TESTING'] = True

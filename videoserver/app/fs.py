@@ -17,7 +17,7 @@ class FileObject:
         ".mpeg",
         ".divx",
         ".flv",
-        ".gif",
+        ".3gp",
     )
 
     def __init__(self, name, parent=None):

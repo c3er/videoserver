@@ -13,7 +13,7 @@ class FileBasicsTests(unittest.TestCase):
         app.rootpath = misc.getscriptpath(__file__)
 
         self.dirpath = "data"
-        self.filepath = "data/test.gif"
+        self.filepath = "data/video.mp4"
 
         self.dirobject = app.fs.getfile(self.dirpath)
         self.fileobject = app.fs.getfile(self.filepath)
@@ -26,7 +26,7 @@ class FileBasicsTests(unittest.TestCase):
         self.assertTrue(self.dirpath in self.dirobject.view_url, "Object with 1 membered path can be created")
 
     def test_directory_object_level2(self):
-        path = "data/subdir"
+        path = "data/samples"
         file = app.fs.getfile(path)
         self.assertTrue(path in file.view_url, "Object with 2 membered path can be created")
 
