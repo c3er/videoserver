@@ -3,10 +3,12 @@
 {% block content %}
 
 <h1>{{ file.name }}</h1>
-<video id="video" width="800" height="450" controls="controls" preload="auto">
-    <source src="{{ file.content_url }}" type="video/mp4" />
-    Your browser does not support the video tag.
-</video>
+<div>
+    <video id="video" width="800" height="450" controls="controls" preload="auto">
+        <source src="{{ file.content_url }}" type="video/mp4" />
+        Your browser does not support the video tag.
+    </video>
+</div>
 
 <!-- Only for debugging/testing -------------------------------------------- -->
 <p>{{ file.ospath }}</p>
@@ -16,30 +18,32 @@
 <!-- ----------------------------------------------------------------------- -->
 
 <script type="text/javascript">
-    var video = document.getElementById("video")
+    (() => {
+        var video = document.getElementById("video")
 
-    // Source: http://dinbror.dk/blog/how-to-preload-entire-html5-video-before-play-solved/
-    var req = new XMLHttpRequest();
-    req.open('GET', '{{ file.content_url }}', true);
-    req.responseType = 'blob';
+        // Source: http://dinbror.dk/blog/how-to-preload-entire-html5-video-before-play-solved/
+        var req = new XMLHttpRequest();
+        req.open('GET', '{{ file.content_url }}', true);
+        req.responseType = 'blob';
 
-    req.onload = function() {
-        // Onload is triggered even on 404
-        // so we need to check the status code
-        if (this.status === 200) {
-            var videoBlob = this.response;
-            var vid = URL.createObjectURL(videoBlob);  // IE10+
+        req.onload = function() {
+            // Onload is triggered even on 404
+            // so we need to check the status code
+            if (this.status === 200) {
+                var videoBlob = this.response;
+                var vid = URL.createObjectURL(videoBlob);  // IE10+
 
-            // Video is now downloaded
-            // and we can set it as source on the video element
-            video.src = vid;
+                // Video is now downloaded
+                // and we can set it as source on the video element
+                video.src = vid;
+            }
         }
-    }
-    req.onerror = function() {
-        // XXX Error
-    }
+        req.onerror = function() {
+            // XXX Error
+        }
 
-    req.send();
+        req.send();
+    })()
 </script>
 
 {% endblock %}

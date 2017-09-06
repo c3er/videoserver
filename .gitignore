@@ -33,5 +33,7 @@ __pycache__/
 .vs/
 .vscode/
 htmlcov/
+output/
 .coverage
 tags
+*.lnk

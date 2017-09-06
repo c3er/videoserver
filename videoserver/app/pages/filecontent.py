@@ -12,7 +12,7 @@ import app.fs
 def get_filecontent(path):
     file = app.fs.getfile(path)
     if file.isdir():
-        error = IsADirectoryError()
+        error = IsADirectoryError(path)
         error.filename = path
         raise error
     return flask.send_file(file.ospath, mimetype="video/mp4")
