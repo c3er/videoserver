@@ -30,26 +30,17 @@ class FileObject:
 
     @property
     def view_url(self):
-        return self.ospath.replace(
-            app.rootpath.replace("\\", "/"),
-            self._getservice().urlbase[:-1]
-        )
+        return self._getserviceurl(self._getviewservice())
 
     @property
     def content_url(self):
         if self.isvideo():
-            return self.ospath.replace(
-                app.rootpath.replace("\\", "/"),
-                app.services.filecontent.urlbase[:-1]
-            )
+            return self._getserviceurl(app.services.filecontent)
 
     @property
     def info_url(self):
         if self.isvideo():
-            return self.ospath.replace(
-                app.rootpath.replace("\\", "/"),
-                app.services.fileinfo.urlbase[:-1]
-            )
+            return self._getserviceurl(app.services.fileinfo)
 
     @property
     def ospath(self):
@@ -94,8 +85,14 @@ class FileObject:
     def listvideos(self):
         return [file for file in self.list() if file.isvideo()]
 
-    def _getservice(self):
+    def _getviewservice(self):
         return app.services.dirlisting if self.isdir() else app.services.fileview
+
+    def _getserviceurl(self, service):
+        return self.ospath.replace(
+            app.rootpath.replace("\\", "/"),
+            service.urlbase[:-1]
+        )
 
 
 def getfile(path):
