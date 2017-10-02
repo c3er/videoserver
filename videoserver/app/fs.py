@@ -3,8 +3,10 @@
 
 
 import os
+import json
 
 import app
+import video
 from misc import debug
 
 
@@ -68,13 +70,14 @@ class FileObject:
         return os.path.isfile(self.ospath)
 
     def isvideo(self):
-        if self.isfile():
-            for filetype in self._known_videofiles:
-                if self.name.endswith(filetype):
-                    debug("app.fs.FileObject.isvideo: Is video:", self.ospath)
-                    return True
-        debug("app.fs.FileObject.isvideo: Is not video:", self.ospath)
-        return False
+        if not self.isfile():
+            return False
+        return any(self.name.endswith(filetype) for filetype in self._known_videofiles)
+
+    def iswebvideo(self):
+        if not self.isvideo():
+            return False
+        return video.getcodec(self.ospath) == (video.VCODEC, video.ACODEC)
 
     def list(self):
         return [FileObject(path, self) for path in os.listdir(self.ospath)]
@@ -93,6 +96,17 @@ class FileObject:
             app.rootpath.replace("\\", "/"),
             service.urlbase[:-1]
         )
+
+
+class FileStatus:
+    def __init__(self, transcoder):
+        self._transcoder = transcoder
+
+    def tojson(self):
+        return json.dumps({
+            "isRunning": self._transcoder.isrunning(),
+            "isReady": self._transcoder.isready(),
+        })
 
 
 def getfile(path):

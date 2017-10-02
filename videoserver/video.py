@@ -19,41 +19,60 @@ _OUTPUTFILE = "out.mp4"
 
 _outputdir = os.path.join(misc.getstarterdir(), _OUTPUTDIR)
 
+_transcoder = None
+
 
 class Transcoder:
     def __init__(self, inputpath, outputpath):
+        self.inputpath = inputpath
         self.outputpath = outputpath
+        self._process = None
+        self._isready = False
 
+    def isrunning(self):
+        if self._process is None or self._isready:
+            return False
+        if self._process.poll() is not None:
+            self._isready = True
+            return False
+        return True
+
+    def fits(self, path):
+        return path == self.inputpath
+
+    def isready(self):
+        return self._isready
+
+    def start(self):
+        os.makedirs(_outputdir, exist_ok=True)
         self._process = subprocess.Popen(
             [
                 "ffmpeg",
                 "-hide_banner",
-                "-i", inputpath,
+                "-i", self.inputpath,
                 "-y",
                 "-map", "0",
                 "-vcodec", VCODEC,
                 "-acodec", ACODEC,
-                outputpath
+                self.outputpath
             ],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
         )
-
-    def isrunning(self):
-        return self._process.poll() is None
 
     def stop(self):
         self._process.kill()
 
 
-def start_transcoding(path):
-    os.makedirs(_outputdir, exist_ok=True)
-    return Transcoder(path, os.path.join(_outputdir, _OUTPUTFILE))
-
-
-def _sanitize_json(text):
-    match = re.search(r'^{([\s\S]*)"streams"', text)
-    return text.replace(match.group(1), "")
+def get_transcoder(path):
+    global _transcoder
+    outputpath = os.path.join(_outputdir, _OUTPUTFILE)
+    if not _transcoder:
+        _transcoder = Transcoder(path, outputpath)
+    elif not _transcoder.fits(path):
+        _transcoder.stop()
+        _transcoder = Transcoder(path, outputpath)
+    return _transcoder
 
 
 def getcodec(path):
@@ -68,7 +87,9 @@ def getcodec(path):
             "-show_streams",
             path
         ],
-        universal_newlines=True
+        universal_newlines=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
     )
     output = _sanitize_json(completed_process.stdout)
 
@@ -83,3 +104,12 @@ def getcodec(path):
             acodec = codec
 
     return vcodec, acodec
+
+
+def _sanitize_json(text):
+    match = re.search(r'^{([\s\S]*)"streams"', text)
+    return text.replace(match.group(1), "")
+
+
+def _istranscoding():
+    return _transcoder is not None and _transcoder.isrunning()

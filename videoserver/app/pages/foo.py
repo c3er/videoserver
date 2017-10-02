@@ -23,7 +23,7 @@ def func():
     return flask.render_template_string(
         template,
         title="Foo bar",
-        message = "Hello world!"
+        message = "Hello, world!"
     )
 
 

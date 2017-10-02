@@ -8,7 +8,7 @@ import unittest
 def main():
     testcases = unittest.TestLoader().discover('tests', '*tests.py')
     suite = unittest.TestSuite(testcases)
-    runner = unittest.TextTestRunner(verbosity=2)
+    runner = unittest.TextTestRunner()
     runner.run(suite)
     
 
